@@ -92,6 +92,11 @@ void UPFCharMovement::Hover(float hoverRay, float hoverDistance, float hoverStre
 
 }
 
+void UPFCharMovement::Glide()
+{
+	
+}
+
 bool UPFCharMovement::GroundCheck(float hoverRay)
 {
 	return false;

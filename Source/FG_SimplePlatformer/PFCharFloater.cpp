@@ -44,6 +44,8 @@ bool UPFCharFloater::Hover(float hoverRay, float hoverDistance, float hoverStren
 	AActor* owner = GetOwner();
 	FHitResult hit;
 
+	
+
 	FVector rayDown = owner->GetActorLocation() - FVector(0, 0, hoverRay);
 
 	FCollisionQueryParams CollisionParams;

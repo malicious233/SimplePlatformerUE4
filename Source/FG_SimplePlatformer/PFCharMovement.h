@@ -37,6 +37,9 @@ public:
 	void Hover(float hoverRay, float hoverDistance, float hoverStrength, float hoverDamping);
 
 	UFUNCTION(BlueprintCallable)
+	void Glide();
+
+	UFUNCTION(BlueprintCallable)
 	bool GroundCheck(float hoverRay);
 
 	UFUNCTION(BlueprintCallable)
