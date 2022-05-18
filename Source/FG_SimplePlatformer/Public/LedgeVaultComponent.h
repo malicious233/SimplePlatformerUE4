@@ -25,7 +25,7 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	UFUNCTION(BlueprintCallable)
-	bool CheckLedgeGrabbable();
+	bool CheckLedgeGrabbable(FVector CheckDirection);
 
 public:
 	UPROPERTY(EditAnywhere)

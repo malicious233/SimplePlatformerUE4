@@ -31,7 +31,7 @@ void ULedgeVaultComponent::TickComponent(float DeltaTime, ELevelTick TickType, F
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 }
 
-bool ULedgeVaultComponent::CheckLedgeGrabbable()
+bool ULedgeVaultComponent::CheckLedgeGrabbable(FVector CheckDirection)
 {
 	FVector GrabRay = GetOwner()->GetActorLocation() + (FVector(GrabOffset));
 	FVector GrabRayDown = GrabRay + FVector::DownVector * RayLength;
@@ -50,14 +50,14 @@ bool ULedgeVaultComponent::CheckLedgeGrabbable()
 	DrawDebugLine(GetWorld(), GetOwner()->GetActorLocation(), AboveRay, FColor::Green, false, 1, 1, 5.f);
 
 	//checks if it's clear above and infront of me
-	IsFrontClear = GetWorld()->LineTraceSingleByChannel(hit, AboveRay, AboveRay + GetOwner()->GetActorForwardVector() * RayLength, ECC_WorldStatic, CollisionParams);
-	DrawDebugLine(GetWorld(), AboveRay, AboveRay + GetOwner()->GetActorForwardVector() * RayLength, FColor::Green, false, 1, 1, 5.f);
+	IsFrontClear = GetWorld()->LineTraceSingleByChannel(hit, AboveRay, AboveRay + CheckDirection * RayLength, ECC_WorldStatic, CollisionParams);
+	DrawDebugLine(GetWorld(), AboveRay, AboveRay + CheckDirection * RayLength, FColor::Green, false, 1, 1, 5.f);
 
-	//and then checks if it's clear to land at said position
-	IsClimbOntoClear = GetWorld()->LineTraceSingleByChannel(hit, AboveRay + GetOwner()->GetActorForwardVector() * RayLength, AboveRay + GetOwner()->GetActorForwardVector() * RayLength + FVector::DownVector * RayLengthDown, ECC_WorldStatic, CollisionParams);
-	DrawDebugLine(GetWorld(), AboveRay + GetOwner()->GetActorForwardVector() * RayLength, AboveRay + GetOwner()->GetActorForwardVector() * RayLength + FVector::DownVector * RayLengthDown, FColor::Green, false, 1, 1, 5.f);
+	//and then checks if it's clear to climb onto at said position
+	IsClimbOntoClear = GetWorld()->LineTraceSingleByChannel(hit, AboveRay + GetOwner()->GetActorForwardVector() * RayLength, AboveRay + CheckDirection * RayLength + FVector::DownVector * RayLengthDown, ECC_WorldStatic, CollisionParams);
+	DrawDebugLine(GetWorld(), AboveRay + CheckDirection * RayLength, AboveRay + CheckDirection * RayLength + FVector::DownVector * RayLengthDown, FColor::Green, false, 1, 1, 5.f);
 
-	//WIP: Need to also check if the ground is flat enough
+	//WIP: Need to also check if the ground is flat enough too
 
 	if (!IsAboveClear && !IsFrontClear && IsClimbOntoClear)
 	{
