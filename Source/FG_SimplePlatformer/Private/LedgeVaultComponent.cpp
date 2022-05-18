@@ -54,7 +54,7 @@ bool ULedgeVaultComponent::CheckLedgeGrabbable(FVector CheckDirection)
 	DrawDebugLine(GetWorld(), AboveRay, AboveRay + CheckDirection * RayLength, FColor::Green, false, 1, 1, 5.f);
 
 	//and then checks if it's clear to climb onto at said position
-	IsClimbOntoClear = GetWorld()->LineTraceSingleByChannel(hit, AboveRay + GetOwner()->GetActorForwardVector() * RayLength, AboveRay + CheckDirection * RayLength + FVector::DownVector * RayLengthDown, ECC_WorldStatic, CollisionParams);
+	IsClimbOntoClear = GetWorld()->LineTraceSingleByChannel(hit, AboveRay + CheckDirection * RayLength, AboveRay + CheckDirection * RayLength + FVector::DownVector * RayLengthDown, ECC_WorldStatic, CollisionParams);
 	DrawDebugLine(GetWorld(), AboveRay + CheckDirection * RayLength, AboveRay + CheckDirection * RayLength + FVector::DownVector * RayLengthDown, FColor::Green, false, 1, 1, 5.f);
 
 	//WIP: Need to also check if the ground is flat enough too
