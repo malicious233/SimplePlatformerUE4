@@ -40,5 +40,15 @@ public:
 	UPROPERTY(EditAnywhere)
 	float RayLengthDown;
 
+	UPROPERTY(BlueprintReadOnly)
+		FVector GrabPosition;
+
+	UPROPERTY(BlueprintReadOnly)
+		FVector GrabPositionNormal;
+
+	UPROPERTY(BlueprintReadOnly)
+		float DisabledLedgeDetection;
+
+
 
 };

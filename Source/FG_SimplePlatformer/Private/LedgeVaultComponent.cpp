@@ -40,6 +40,7 @@ bool ULedgeVaultComponent::CheckLedgeGrabbable(FVector CheckDirection)
 	FCollisionQueryParams CollisionParams;
 
 	bool IsAboveClear;
+	bool IsLedgeClear;
 	bool IsFrontClear;
 	bool IsClimbOntoClear;
 
@@ -49,9 +50,15 @@ bool ULedgeVaultComponent::CheckLedgeGrabbable(FVector CheckDirection)
 	IsAboveClear = GetWorld()->LineTraceSingleByChannel(hit, GetOwner()->GetActorLocation(), AboveRay, ECC_WorldStatic, CollisionParams);
 	DrawDebugLine(GetWorld(), GetOwner()->GetActorLocation(), AboveRay, FColor::Green, false, 1, 1, 5.f);
 
+	IsLedgeClear = GetWorld()->LineTraceSingleByChannel(hit, GetOwner()->GetActorLocation(), GetOwner()->GetActorLocation() + CheckDirection * RayLength, ECC_WorldStatic, CollisionParams);
+	DrawDebugLine(GetWorld(), GetOwner()->GetActorLocation(), GetOwner()->GetActorLocation() + CheckDirection * RayLength, FColor::Green, false, 1, 1, 5.f);
+	GrabPosition = hit.Location;
+	GrabPositionNormal = hit.Normal;
+
 	//checks if it's clear above and infront of me
 	IsFrontClear = GetWorld()->LineTraceSingleByChannel(hit, AboveRay, AboveRay + CheckDirection * RayLength, ECC_WorldStatic, CollisionParams);
 	DrawDebugLine(GetWorld(), AboveRay, AboveRay + CheckDirection * RayLength, FColor::Green, false, 1, 1, 5.f);
+	
 
 	//and then checks if it's clear to climb onto at said position
 	IsClimbOntoClear = GetWorld()->LineTraceSingleByChannel(hit, AboveRay + CheckDirection * RayLength, AboveRay + CheckDirection * RayLength + FVector::DownVector * RayLengthDown, ECC_WorldStatic, CollisionParams);
@@ -59,7 +66,7 @@ bool ULedgeVaultComponent::CheckLedgeGrabbable(FVector CheckDirection)
 
 	//WIP: Need to also check if the ground is flat enough too
 
-	if (!IsAboveClear && !IsFrontClear && IsClimbOntoClear)
+	if (!IsAboveClear && !IsFrontClear && IsClimbOntoClear && IsLedgeClear)
 	{
 		GEngine->AddOnScreenDebugMessage(
 			INDEX_NONE,
