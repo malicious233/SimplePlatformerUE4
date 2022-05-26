@@ -31,6 +31,9 @@ public:
 	UPROPERTY()
 	UPrimitiveComponent* Shape;
 
+	UPROPERTY(EditDefaultsOnly)
+	float HoverRayWidth;
+
 	
 
 private:

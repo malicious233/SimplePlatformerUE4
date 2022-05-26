@@ -3,6 +3,7 @@
 
 #include "PFCharMovement.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 // Sets default values for this component's properties
 UPFCharMovement::UPFCharMovement()
@@ -71,7 +72,13 @@ void UPFCharMovement::Hover(float hoverRay, float hoverDistance, float hoverStre
 	FVector rayDown = owner->GetActorLocation() - FVector(0, 0, hoverRay);
 
 	FCollisionQueryParams CollisionParams;
-	if (GetWorld()->LineTraceSingleByChannel(hit, Shape->GetComponentLocation(), rayDown, ECC_WorldStatic, CollisionParams))
+	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypesArray;
+	TArray<AActor*> IgnoredActors;
+	ObjectTypesArray.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_GameTraceChannel1));
+
+	//if (GetWorld()->LineTraceSingleByChannel(hit, Shape->GetComponentLocation(), rayDown, ECC_WorldStatic, CollisionParams))
+
+	if (UKismetSystemLibrary::SphereTraceSingleForObjects(GetWorld(), Shape->GetComponentLocation(), rayDown, FloatRayWidth, ObjectTypesArray, true, IgnoredActors, EDrawDebugTrace::ForOneFrame, hit, true))
 	{
 		FVector vel = Shape->GetComponentVelocity();
 

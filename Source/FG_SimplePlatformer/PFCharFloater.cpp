@@ -3,6 +3,7 @@
 
 #include "PFCharFloater.h"
 #include "Components/CapsuleComponent.h"
+#include "Kismet/KismetSystemLibrary.h"
 
 
 // Sets default values for this component's properties
@@ -49,7 +50,11 @@ bool UPFCharFloater::Hover(float hoverRay, float hoverDistance, float hoverStren
 	FVector rayDown = owner->GetActorLocation() - FVector(0, 0, hoverRay);
 
 	FCollisionQueryParams CollisionParams;
-	if (GetWorld()->LineTraceSingleByChannel(hit, Shape->GetComponentLocation(), rayDown, ECC_WorldStatic, CollisionParams))
+	TArray<TEnumAsByte<EObjectTypeQuery>> ObjectTypesArray;
+	TArray<AActor*> IgnoredActors;
+	ObjectTypesArray.Add(UEngineTypes::ConvertToObjectType(ECollisionChannel::ECC_WorldStatic));
+
+	if (UKismetSystemLibrary::SphereTraceSingleForObjects(GetWorld(), Shape->GetComponentLocation(), rayDown, HoverRayWidth, ObjectTypesArray, true, IgnoredActors, EDrawDebugTrace::ForOneFrame, hit, true))
 	{
 		FVector vel = Shape->GetComponentVelocity();
 

@@ -48,6 +48,9 @@ public:
 	UPROPERTY()
 	UPrimitiveComponent* Shape;
 
+	UPROPERTY(EditDefaultsOnly)
+	float FloatRayWidth;
+
 	//UPROPERTY(EditAnywhere)
 	//UCharacterMovementDataAsset* MovementData;
 
